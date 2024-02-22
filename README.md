@@ -1,6 +1,6 @@
 # Quizer - Quiz App
 
-This repository contains the Django project Quizer, which includes a quiz app and a form application.
+This repository contains the Django project Quizer, which includes a form application that includes quiz backend apis.
 
 ## Description
 Quizer is a quiz application built using Django. It allows users to create and take quizzes.
@@ -41,3 +41,6 @@ Currently, Cross-Origin Resource Sharing (CORS) is set to accept requests from `
     serve -s static
     ```
 5. Access the application in your web browser at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+## API Documentation
+For API documentation on the form application, you can use Swapper. Access it at [localhost:8000/form/api/docs](http://localhost:8000/form/api/docs).
