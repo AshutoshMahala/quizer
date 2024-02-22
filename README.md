@@ -1,12 +1,12 @@
 # Quizer - Quiz App
 
-This repository contains the Django project Quizer, which includes a form application used for quizing.
+This repository contains the Django project Quizer, which includes a quiz app and a form application.
 
 ## Description
 Quizer is a quiz application built using Django. It allows users to create and take quizzes.
 
 ## Project Structure
-- Static HTML files are located in the `quizer/static` folder.
+- Static HTML files are located in the `quizer/static/quizer` folder.
 
 ## CORS Configuration
 Currently, Cross-Origin Resource Sharing (CORS) is set to accept requests from `localhost:8080`.
@@ -32,4 +32,12 @@ Currently, Cross-Origin Resource Sharing (CORS) is set to accept requests from `
     ```
     python manage.py runserver
     ```
-3. Access the application in your web browser at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+3. Optionally, you can use the "serve" package to host static files. If not installed, you can install it using npm:
+    ```
+    npm install -g serve
+    ```
+4. Start the local server to serve static files:
+    ```
+    serve -s static
+    ```
+5. Access the application in your web browser at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Form</title>
+</head>
+<body>
+
+    <h1>Quiz Form</h1>
+
+    <form id="quizForm">
+    </form>
+
+    <script>
+        window.onload = function() {
+            const baseUrl = "http://localhost:8080/";
+            const baseApiUrl = "http://localhost:8000/form/api/";
+            let currentQuestionIndex = 0;
+            let questionsArray = [];
+            let responseArray = [];
+            const quizFormContainer = document.getElementById("quizForm");
+
+            function fetchQuestions(quizId) {
+                let apiUrl = baseApiUrl + "quiz/" + quizId;
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        questionsArray = data;
+                        renderQuestion(currentQuestionIndex);
+                    })
+                    .catch(error => console.error("Error fetching questions:", error));
+            }
+
+            function renderQuestion(index) {
+                quizFormContainer.innerHTML = "";
+                const question = questionsArray[index];
+
+                const questionElement = document.createElement("div");
+                questionElement.innerHTML = `
+                    <p>${question.question_text}</p>
+                    <textarea id="answerTextarea" name="answer_${question.question_id}" rows="4" cols="50"></textarea>
+                    <button id="nextButton">Next</button>
+                `;
+
+                let timeout;
+
+                questionElement.querySelector("#nextButton").addEventListener("click", function() {
+                    clearTimeout(timeout);
+                    let response_text = questionElement.querySelector("#answerTextarea").value;
+                    
+                    responseArray.push({'question_id': question.question_id, 'response_text': response_text});
+
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questionsArray.length) {
+                        renderQuestion(currentQuestionIndex);
+                    } else {
+                        submitForm(responseArray);
+                    }
+                });
+
+                timeout = setTimeout(function() {
+                    console.log("No response within 3 minutes. Moving to the next question.");
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questionsArray.length) {
+                        renderQuestion(currentQuestionIndex);
+                    } else {
+                        submitForm(responseArray);
+                    }
+                }, 3 * 1000);
+
+                quizFormContainer.appendChild(questionElement);
+            }
+
+            function submitForm(toSubmit) {
+                console.log("User Responses:", toSubmit);
+
+                const postUrl = baseApiUrl + "take-quiz";
+                const body = JSON.stringify(toSubmit);
+                
+                console.log(body);
+                alert(body);
+                alert(toSubmit);
+                fetch(postUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: body,
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("POST request successful.");
+                        window.location.href = "http://localhost:8080/submitted.html";
+                    } else {
+                        console.error("Error in POST request:", response.statusText);
+                    }
+                })
+                .catch(error => console.error("Error in POST request:", error));
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const quizId = urlParams.get('quiz_id');
+
+            fetchQuestions(quizId);
+        };
+    </script>
+
+</body>
+</html>
