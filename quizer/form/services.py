@@ -29,8 +29,15 @@ def get_all_quizes():
 
 
 def create_response(user_name, question_id, response_text):
-    Response.objects.create(user_name=user_name, question_id=question_id, repsonse_text=response_text)
+    Response.objects.create(question_id=question_id, repsonse_text=response_text)
 
 
 def get_all_users():
     return list(User.objects.all())
+
+
+def take_quiz(data):
+    for query_response in data:
+        question = Question.objects.get(id=query_response.question_id)
+        response = Response.objects.create(question=question, answer=query_response.response_text)
+        response.save()

@@ -32,3 +32,7 @@ class UserOut(Schema):
     user_name: str
     id: int
     user_email: str = None
+
+class ResponseIn(Schema):
+    question_id: int
+    response_text: str

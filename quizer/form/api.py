@@ -2,7 +2,7 @@ from ninja import NinjaAPI
 import json
 
 from . import services
-from .schemas import QuizIn, QuestionsIn, QuestionOut, UserOut, QuestionDto
+from .schemas import QuizIn, QuestionsIn, QuestionOut, UserOut, ResponseIn
 
 api = NinjaAPI()
 
@@ -27,9 +27,11 @@ def get_questions(request, quiz_id: int):
 
     return result
 
+
 @api.get("users", response={200: list[UserOut]})
 def get_users(request):
     return services.get_all_users()
+
 
 @api.get("quizes")
 def get_quizes(request):
@@ -37,3 +39,8 @@ def get_quizes(request):
     for quiz in services.get_all_quizes():
         result.append({"id": quiz.id, "name": quiz.quiz_name, 'num_questions': quiz.num_questions})
     return result
+
+
+@api.post("take-quiz", response={200: None})
+def take_quiz(request, data: list[ResponseIn]):
+    services.take_quiz(data)

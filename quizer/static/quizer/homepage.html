@@ -13,8 +13,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let baseurl = "http://localhost:8000/form/api/"; 
-            let apiUrl = baseurl + "quizes";
+            let base_url = "http://localhost:8080/"
+            let base_api_url = "http://localhost:8000/form/api/"; 
+            let apiUrl = base_api_url + "quizes";
 
             fetch(apiUrl)
                 .then(response => response.json())
@@ -26,7 +27,7 @@
                     quizArray.forEach(function (quiz) {
                         let listItem = document.createElement("li");
                         let link = document.createElement("a");
-                        link.href = baseurl + "quiz/" + quiz["id"];
+                        link.href = base_url + "quiz.html?quiz_id=" + quiz["id"];
                         link.textContent = quiz['name'];
                         listItem.appendChild(link);
                         quizListContainer.appendChild(listItem);
