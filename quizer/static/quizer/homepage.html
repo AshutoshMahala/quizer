@@ -13,25 +13,22 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // URL to fetch the list of quizzes
             let baseurl = "http://localhost:8000/form/api/"; 
-            var apiUrl = baseurl + "quizes";
+            let apiUrl = baseurl + "quizes";
 
-            // Fetching the data using the Fetch API
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    // Assuming the data is an array of quiz names or URLs
-                    var quizArray = data.quizes;
+                    let quizArray = data;
 
-                    var quizListContainer = document.getElementById("quizList");
+                    let quizListContainer = document.getElementById("quizList");
 
                     quizArray.forEach(function (quiz) {
-                        var listItem = document.createElement("li");
-                        var link = document.createElement("a");
+                        let listItem = document.createElement("li");
+                        let link = document.createElement("a");
                         link.href = baseurl + "quiz/" + quiz["id"];
-                        link.textContent = quiz['quiz_name'];
-                        listItem.appendChild(ink);
+                        link.textContent = quiz['name'];
+                        listItem.appendChild(link);
                         quizListContainer.appendChild(listItem);
                     });
                 })

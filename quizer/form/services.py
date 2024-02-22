@@ -3,12 +3,12 @@ from .models import Quiz, User, Question, Response
 
 def create_quiz(quiz_data):
     user = User.objects.get(user_name=quiz_data.user_name)
-    quiz = Quiz.objects.create(quiz_name=quiz_data.user_name, admin_user=user, num_questions=5)
+    quiz = Quiz.objects.create(quiz_name=quiz_data.quiz_name, admin_user=user, num_questions=5)
     quiz.save()
     return quiz
 
 
-def create_question(question_data):
+def create_question(questionfovorite_data):
     try:
         quiz = Quiz.objects.get(id=question_data.quiz_id)
     except Quiz.DoesNotExist:
