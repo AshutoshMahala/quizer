@@ -1,0 +1,11 @@
+version: '3'
+services:
+  quizer-app:
+    build:
+      context: .
+      dockerfile: ./DockerFile
+    volumes:
+      - .:/app
+    image: quizer-app:latest
+    ports:
+      - 8000:8000
